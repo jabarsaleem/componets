@@ -1,66 +1,78 @@
 import React, { Component } from 'react';
-import { Media } from 'reactstrap';
+import { Card, CardImg, CardText, CardBody, CardTitle, CardImgOverlay } from 'reactstrap';
+
+
 
 class Menu extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            dishes: [
-                {
-                    id: 0,
-                    name: 'Uthappizza',
-                    image: 'assets/images/uthappizza.png',
-                    category: 'mains',
-                    label: 'Hot',
-                    price: '4.99',
-                    description: 'A unique combination of Indian Uthappam (pancake) and Italian pizza, topped with Cerignola olives, ripe vine cherry tomatoes, Vidalia onion, Guntur chillies and Buffalo Paneer.'
-                },
-                {
-                    id: 1,
-                    name: 'Zucchipakoda',
-                    image: 'assets/images/zucchipakoda.png',
-                    category: 'appetizer',
-                    label: '',
-                    price: '1.99',
-                    description: 'Deep fried Zucchini coated with mildly spiced Chickpea flour batter accompanied with a sweet-tangy tamarind sauce'
-                },
-            ]
+            selectdish: null
         };
     }
 
+    onDishSelect(dish) {
+          
+        this.setState({  selectdish: dish});
+    }
+
+    renderDish(dish) {
+        if (dish != null)
+            return(
+                <Card>
+                    <CardImg className='col-12 col-md-6 mt-4' height='30%' src={dish.image} alt={dish.name} />
+                    <CardBody>
+                      <CardTitle>{dish.name}</CardTitle>
+                      <CardText>{dish.description}</CardText>
+                    </CardBody>
+                </Card>
+            );
+        else
+            return(
+                <div></div>
+            );
+    }
+
     render() {
-        const menu = this.state.dishes.map((dish) => {
+        const menu = this.props.dishes.map((dish) => {
             return (
-                <div key={dish.id} className='col-12 mt-5'>
-                    <Media tag='li'>
-                        <Media left middle>
-                            <Media object src={dish.image} alt={dish.image} />
-                        </Media>
+                <div className='col-12 col-md-4 mt-3'>
+                    <Card key={dish.id} 
+                    onClick={()=>this.onDishSelect(dish)}>
+                        <CardImg width='100%' src={dish.image} alt={dish.name}>
 
-                        <Media body className='ml-5'>
+                        </CardImg>
 
-                            <Media heading>{dish.name}
-                            </Media>
-                            <p>{dish.description}</p>
-                            
-                        </Media>
+                        <CardImgOverlay>
+                            <CardTitle>{dish.name}</CardTitle>
 
-                    </Media>
+                        </CardImgOverlay>
 
-                </div>
+                    </Card>
+
+                   
+
+                </div >
 
             );
 
-        })
+    })
 
-        return (
-            <div className='container' >
+    return(
+            <div className = 'container' >
 
-                <div className='row'>
+            <div className='row'>
 
-                    {menu}
+                {menu}
+            </div>
+            <div className='row'>
+                <div classname='col-12 col-md-6 m-1'>
+                {this.renderDish(this.state.selectdish)}
                 </div>
+           
+
+            </div>
 
             </div>
 
